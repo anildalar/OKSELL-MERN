@@ -1,5 +1,5 @@
 //Default Import
-const userModel = require("../models/userModel");
+const userModel = require("../../models/userModel");
 //const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 
@@ -33,7 +33,8 @@ exports.signup = (req,res,next)=>{
 
             //console.log(hash_password);
            // hash_password='123';
-            const user = new userModel({ firstName,lastName,username,email,password });
+            let role = 'admin';
+            const user = new userModel({ firstName,lastName,username,email,password,role });
             //console.log(user);
             //Save the info
             user.save((error,data)=>{
@@ -91,20 +92,4 @@ exports.signin = (req,res,next)=>{
         }
 
     });
-}
-exports.auth = (req,res,next) =>{
-    //access the authorization token
-    const token = req.headers.authorization.split(" ")[1];
-    // console.log(token);
-    
-    //verify the token
-   
-     try {
-        var user =jwt.verify(token, process.env.JWT_SECRET);
-        next();
-    } catch (error) {
-        res.status(403).json({
-            msg:'Invalid TOKEN'
-        });
-  }
 }

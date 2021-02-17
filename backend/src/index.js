@@ -4,6 +4,7 @@ const app = express();
 const env = require('dotenv');
 var bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoute');
+const adminRoutes = require('./routes/admin/adminRoute');
 
 const mongoose = require('mongoose');
 
@@ -16,6 +17,7 @@ env.config();
 app.use(bodyParser.json());
 
 app.use('/api',userRoutes);
+app.use('/api',adminRoutes);
 
 console.log(`${process.env.MONGODB_USER}`);
 

@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken');
 //Named Import
 const { signup, signin,auth } = require('../controllers/auth');
 var router = express.Router();
+const { validationRequest, isRequestValidated } = require('../validators/validator');
 
 //endpoints = routes
 router.get('/getsomething',function(req,res,next){
@@ -10,7 +11,7 @@ router.get('/getsomething',function(req,res,next){
 })
 
 // /api/saveuser
-router.post('/signup',signup);
+router.post('/signup', validationRequest, isRequestValidated  ,signup);
 
 router.post('/signin',signin);
 

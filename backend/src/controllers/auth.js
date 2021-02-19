@@ -2,11 +2,14 @@
 const userModel = require("../models/userModel");
 //const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
-
+const { validationResult } = require('express-validator');
 
 //Named Export
 exports.signup = (req,res,next)=>{
-    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     //console.log(req.body.fname);
    // console.log(req.body.lname);
 

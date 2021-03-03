@@ -72,7 +72,8 @@ exports.signin = (req,res,next)=>{
             console.log(password);
             const isPassword = user.authenticate(password);
             if(isPassword){
-                var token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET,{expiresIn:'1h'});
+                //Token Encoding
+                var token = jwt.sign({ _id: user._id,role:user.role }, process.env.JWT_SECRET,{expiresIn:'1h'});
 
                 return res.status(200).json({
                     token: token,

@@ -1,7 +1,8 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+const { auth, isUserToken } = require('../common-middleware');
 //Named Import
-const { signup, signin,auth } = require('../controllers/auth');
+const { signup, signin } = require('../controllers/auth');
 var router = express.Router();
 const { validationRequest, isRequestValidated } = require('../validators/validator');
 
@@ -25,7 +26,8 @@ router.post('/signin',signin);
 
    
 
-router.post('/userprofile' ,function(req,res,next){
+router.post('/userprofile', auth, isUserToken ,function(req,res,next){
+    
     res.status(200).json({
         msg:'User Profile'
     });

@@ -1,5 +1,6 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+const { auth, isAdminToken } = require('../../common-middleware');
 //Named Import
 const { signup, signin } = require('../../controllers/admin/adminAuth');
 var router = express.Router();
@@ -14,11 +15,8 @@ router.post('/admin/signin',signin);
  * router.post(endpoint,middleware,callback);
  * router.get(endpoint,middleware,callback);
  */
-function auth(req,res,next){
-    next();
-}
    
-router.post('/admin/adminprofile', auth,function(req,res,next){
+router.post('/admin/adminprofile', auth,isAdminToken,function(req,res,next){
     res.status(200).json({
         msg:'Admin Profile'
     });

@@ -5,6 +5,9 @@ const env = require('dotenv');
 var bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoute');
 const adminRoutes = require('./routes/admin/adminRoute');
+const categoryRoutes = require('./routes/category');
+
+var multer  = require('multer');
 
 const mongoose = require('mongoose');
 
@@ -18,6 +21,25 @@ app.use(bodyParser.json());
 
 app.use('/api',userRoutes);
 app.use('/api',adminRoutes);
+
+app.use('/api',categoryRoutes);
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        console.log(file);
+      cb(null, file.fieldname + '-' + Date.now()+file.originalname);
+    }
+  })
+   
+var upload = multer({ storage: storage })
+app.post('/api/profile', upload.single('mypic'), function (req, res, next) {
+   res.status(200).json({
+       msg:"File Uploaded Successfully"
+   });
+});
 
 console.log(`${process.env.MONGODB_USER}`);
 

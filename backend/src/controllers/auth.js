@@ -6,10 +6,7 @@ const { validationResult } = require('express-validator');
 
 //Named Export
 exports.signup = (req,res,next)=>{
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+    
     //console.log(req.body.fname);
    // console.log(req.body.lname);
 
@@ -74,7 +71,8 @@ exports.signin = (req,res,next)=>{
             console.log(password);
             const isPassword = user.authenticate(password);
             if(isPassword){
-                var token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET,{expiresIn:'1h'});
+                //Token Encode 
+                var token = jwt.sign({ _id: user._id,role:user.role }, process.env.JWT_SECRET,{expiresIn:'1h'});
 
                 return res.status(200).json({
                     token: token,
@@ -94,20 +92,4 @@ exports.signin = (req,res,next)=>{
         }
 
     });
-}
-exports.auth = (req,res,next) =>{
-    //access the authorization token
-    const token = req.headers.authorization.split(" ")[1];
-    // console.log(token);
-    
-    //verify the token
-   
-     try {
-        var user =jwt.verify(token, process.env.JWT_SECRET);
-        next();
-    } catch (error) {
-        res.status(403).json({
-            msg:'Invalid TOKEN'
-        });
-  }
 }

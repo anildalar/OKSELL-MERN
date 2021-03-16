@@ -1,41 +1,15 @@
 var express = require('express');
 const { auth, isAdminToken } = require('../common-middleware');
-const categoryModel = require("../models/categoryModel");
+//Named Import {  }
+const { createCategory, deleteCategory, getCategory } = require('../controllers/category');
 var router = express.Router();
 
-router.post('/category/create',auth,isAdminToken,function(req,res,next){
-    
-    //Destructure
-    const { name,slug,parentId } = req.body;
+router.post('/category/create',auth,isAdminToken,createCategory);
 
-    const cat = new categoryModel({ name,slug,parentId });
-    
-    cat.save((error,category)=>{
-        if(error) res.status(400).json(error);
-        res.status(200).json({
-            msg:"Category created Successfully",
-            category:category
-        });
+router.get('/category/get',getCategory);
 
-    });
-});
+router.post('/category/delete',auth,isAdminToken,deleteCategory);
 
-router.post('/category/delete',auth,isAdminToken,async function(req,res){
-    //req.body.something
-    console.log(req.body._id);
 
-    const deleteCategory = await categoryModel.findOneAndDelete({
-        _id:req.body._id
-    });
-    if(deleteCategory){
-        res.status(200).json({
-            msg:"Category Deleted Successfully"
-        });
-    }else{
-        res.status(401).json({
-            msg:"Unable to Deleted Category"
-        });
-    }
-  });
 
 module.exports = router;

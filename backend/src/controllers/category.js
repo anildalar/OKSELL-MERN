@@ -4,7 +4,6 @@ const categoryModel = require("../models/categoryModel");
 exports.createCategory = function(req,res){
     
     //Destructure
-
     const { name,slug,parentId } = req.body;
 
     const cat = new categoryModel({ name,slug,parentId });

@@ -13,6 +13,8 @@ const InputGroup = (props) => {
             <Form.Control 
                 type={props.type} 
                 placeholder={ props.placeholder }
+                value={ props.value }
+                onChange={ props.onChange }
             />
             <Form.Text className="text-muted">
                { props.errorMsg }

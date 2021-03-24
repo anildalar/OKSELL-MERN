@@ -16,6 +16,7 @@ const App = (props) => {
 
   return(
      <BrowserRouter>
+        <Route path="/" exact component={ Home }></Route>
         <Route path="/signin" component={ Signin }></Route>
         <Route path="/signup" component={ Signup } ></Route>
      </BrowserRouter>
